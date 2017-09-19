@@ -27,23 +27,23 @@ public class GenericListDeserializerTests {
 
     @Autowired
     private ZooService zooService;
-
-
+    
+    String zooJson = "{\"city\":\"Zooland\",\"phoneNumber\":\"987-654-321\",\"animals\":[{\"name\":\"Manny\",\"tuskSize\":23,\"__metadata\":{\"#type\":\"Elephant\",\"#id\":1}},{\"name\":\"Ellie\",\"tuskSize\":18,\"__metadata\":{\"#type\":\"Elephant\",\"#id\":2}},{\"name\":\"Simba\",\"maneColor\":\"Brown\",\"__metadata\":{\"#type\":\"Lion\",\"#id\":3}},{\"name\":\"Scar\",\"maneColor\":\"Black\",\"__metadata\":{\"#type\":\"Lion\",\"#id\":4}},{\"name\":\"Shere Khan\",\"stripeNumber\":54,\"__metadata\":{\"#type\":\"Tiger\",\"#id\":5}},{\"name\":\"Rajah\",\"stripeNumber\":45,\"__metadata\":{\"#type\":\"Tiger\",\"#id\":6}}]}";
+    
+    
     @Test
     public void testSerialize() throws Exception {
         Zoo zoo = zooService.getZoo();
-
-        System.out.println(json.write(zoo).getJson());
+        Zoo zooWrite = json.write(zoo).getJson();
+        isEqualTo(zooJson, zooWrite);
     }
 
     @Test
     public void testDeserialize() throws IOException {
-        String zooJson = "{\"city\":\"Zooland\",\"phoneNumber\":\"987-654-321\",\"animals\":[{\"name\":\"Manny\",\"tuskSize\":23,\"__metadata\":{\"#type\":\"Elephant\",\"#id\":1}},{\"name\":\"Ellie\",\"tuskSize\":18,\"__metadata\":{\"#type\":\"Elephant\",\"#id\":2}},{\"name\":\"Simba\",\"maneColor\":\"Brown\",\"__metadata\":{\"#type\":\"Lion\",\"#id\":3}},{\"name\":\"Scar\",\"maneColor\":\"Black\",\"__metadata\":{\"#type\":\"Lion\",\"#id\":4}},{\"name\":\"Shere Khan\",\"stripeNumber\":54,\"__metadata\":{\"#type\":\"Tiger\",\"#id\":5}},{\"name\":\"Rajah\",\"stripeNumber\":45,\"__metadata\":{\"#type\":\"Tiger\",\"#id\":6}}]}";
-
         Zoo zooParsed = json.parseObject(zooJson);
         Zoo zoo = zooService.getZoo();
-        assertThat(zooParsed.getCity()).isEqualTo(zoo.getCity());
-        assertThat(zooParsed.getPhoneNumber()).isEqualTo(zoo.getPhoneNumber());
+        isEqualTo(zooParsed.getCity(),zoo.getCity());
+        isEqualTo(zooParsed.getPhoneNumber(),zoo.getPhoneNumber());
 
         for(int i = 0; i < zooParsed.getAnimals().size(); i++) {
             Animal animalParsed = zooParsed.getAnimals().get(i);
