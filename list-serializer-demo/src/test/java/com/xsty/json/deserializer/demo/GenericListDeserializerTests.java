@@ -34,7 +34,7 @@ public class GenericListDeserializerTests {
     @Test
     public void testSerialize() throws Exception {
         Zoo zoo = zooService.getZoo();
-        Zoo zooWrite = json.write(zoo).getJson();
+        String zooWrite = json.write(zoo).getJson();
         isEqualTo(zooJson, zooWrite);
     }
 
